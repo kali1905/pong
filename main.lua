@@ -10,7 +10,9 @@ PADDLE_SPEED = 450
 
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
+    
     math.randomseed(os.time())
+    
     smallFont = love.graphics.newFont('font.ttf', 16)
     scoreFont = love.graphics.newFont('font.ttf', 52)
     love.graphics.setFont(smallFont)
@@ -91,7 +93,7 @@ function love.draw()
     
     love.graphics.rectangle('fill', 10, player1Y, 5, 50)
     love.graphics.rectangle('fill', VIRTUAL_WIDTH - 10, player2Y, 5, 50)    
-    love.graphics.rectangle('fill', VIRTUAL_WIDTH / 2, VIRTUAL_HEIGHT / 2 - 25, 5, 5)
+    love.graphics.rectangle('fill', ballX, ballY, 5, 5)
     
     push:apply('end')
 end
