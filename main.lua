@@ -18,6 +18,7 @@ function love.load()
     math.randomseed(os.time())
     
     smallFont = love.graphics.newFont('font.ttf', 16)
+    scoreFont = love.graphics.newFont('font.ttf', 24)
 
     love.graphics.setFont(smallFont)
 
@@ -27,6 +28,9 @@ function love.load()
         vsync = true
     })
     
+    player1Score = 0
+    player2Score = 0
+
     player1 = Paddle(10, 30, 5, 50)
     player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 100, 5, 50)
 
@@ -36,6 +40,32 @@ function love.load()
 end
 
 function love.update(dt)
+    if gameState == 'play' then
+        if ball:collides(player1) then
+            ball.dx = -ball.dx * 1.03
+            ball.x = player1.x + player1.width
+        end
+
+        if ball:collides(player2) then
+            ball.dx = -ball.dx * 1.03
+            ball.x = player2.x - ball.width
+        end
+
+        if ball.x < 0 then
+            player2Score = player2Score + 1
+            gameState = 'start'
+            ball:reset()
+        elseif ball.x > VIRTUAL_WIDTH then
+            player1Score = player1Score + 1
+            gameState = 'start'
+            ball:reset()
+        end
+
+        if ball.y <= 0 or ball.y >= VIRTUAL_HEIGHT - ball.height then
+            ball.dy = -ball.dy
+        end
+    end
+
     if love.keyboard.isDown('w') then
         player1.dy = -PADDLE_SPEED
     elseif love.keyboard.isDown('s') then
@@ -81,10 +111,16 @@ function love.draw()
     love.graphics.clear(40/255, 45/255, 52/255, 255/255)
     love.graphics.setFont(smallFont)
     
+    love.graphics.setFont(scoreFont)
+    love.graphics.print(tostring(player1Score), VIRTUAL_WIDTH / 2 - 50, 
+        VIRTUAL_HEIGHT / 3)
+    love.graphics.print(tostring(player2Score), VIRTUAL_WIDTH / 2 + 30,
+        VIRTUAL_HEIGHT / 3)
+
     if gameState == 'start' then
-        love.graphics.printf('Aşkımla pong oynicazzz!!', 0, 20, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Pongu başlat(Enter)', 0, 20, VIRTUAL_WIDTH, 'center')
     else
-        love.graphics.printf('Aşkımla pong oynuyoruzzz!!', 0, 20, VIRTUAL_WIDTH, 'center')
+        love.graphics.printf('Pong başladı', 0, 20, VIRTUAL_WIDTH, 'center')
     end
     
     player1:render()
