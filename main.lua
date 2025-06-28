@@ -183,7 +183,7 @@ end
 
 function love.draw()
     push:start()
-    love.graphics.clear(0, 0, 0, 1)
+    love.graphics.clear(40/255, 45/255, 52/255, 255/255)
 
     if gameState == 'start' then
         
