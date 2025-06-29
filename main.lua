@@ -57,34 +57,34 @@ end
 
 function love.update(dt)
     if gameState == 'serve' then
-        ball.dy = math.random(-50, 50)
+        ball.dy = math.random(-150, 150)
         if servingPlayer == 1 then
-            ball.dx = math.random(140, 200)
+            ball.dx = -math.random(300, 400)
         else
-            ball.dx = math.random(140, 200)
+            ball.dx = math.random(300, 400)
         end
     elseif gameState == 'play' then
         if ball:collides(player1) then
-            ball.dx = -ball.dx * 1.03
+            ball.dx = -ball.dx * 1.08
             ball.x = player1.x + 5
             
             if ball.dy < 0 then
-                ball.dy = -math.random(10, 150)
+                ball.dy = -math.random(50, 200)
             else
-                ball.dy = math.random(10, 150)
+                ball.dy = math.random(50, 200)
             end
 
             sounds['paddle_hit']:play()
         end
 
         if ball:collides(player2) then
-            ball.dx = -ball.dx * 1.03
+            ball.dx = -ball.dx * 1.08
             ball.x = player2.x - 4
 
             if ball.dy < 0 then
-                ball.dy = -math.random(10, 150)
+                ball.dy = -math.random(50, 200)
             else
-                ball.dy = math.random(10, 150)
+                ball.dy = math.random(50, 200)
             end
 
             sounds['paddle_hit']:play()
